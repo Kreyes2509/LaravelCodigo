@@ -48,7 +48,7 @@ class AuthController extends Controller
         if(Auth::attempt($credentials)){
 
             $codigo = rand(1000,10000);
-            $url="https://www.kennethreyes.com.mx";
+            $url="https://www.kennethreyes.com.mx/verificarCode";
 
             self::updateUser($user->id,$codigo);
 
