@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>BIENVENIDO {{$name}}</h1>
+    <h1>BIENVENIDO:{{$name}}</h1>
     <p>Tu codigo es:{{$codigo}}</p>
     <a href="{{$url}}">verificar codigo</a>
 </body>
