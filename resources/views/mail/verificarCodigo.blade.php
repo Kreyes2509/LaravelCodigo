@@ -1,12 +1,5 @@
 @extends('diseño')
 
-@if ($message = Session::get('msg'))
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <strong>{{$message}}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-@endif
-
 <div class="login"style="text-align: center;width: 50%">
     <form  style="width: 50%">
         <h1>Verificar codigo</h1>
