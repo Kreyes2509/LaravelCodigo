@@ -49,8 +49,8 @@ class AuthController extends Controller
         }
         $user = User::where("email", "=", $request->email)->first();
         $codigo = rand(1000,10000);
-        $url="https://www.kennethreyes.com.mx/verificarCode";
         $id = $user->id;
+        $url=URL::temporarySignedRoute('verificarCode', now()->addMinutes(1),['id'=>$user->id]);
 
         self::updateUser($user->id,$codigo);
 

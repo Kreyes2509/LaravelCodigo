@@ -22,7 +22,7 @@ Route::post('sesion', [AuthController::class, 'login'])->name('sesion');
 Route::get('registrar', [AuthController::class, 'registrarView'])->name('registrar');
 Route::post('signUp', [AuthController::class, 'Registrar'])->name('signUp');
 Route::get('signout', [AuthController::class, 'cerrarSesion'])->name('signout');
-Route::get('verificarCode', [AuthController::class, 'CodeView'])->name('CodeView');
+Route::get('verificarCode/{id}', [AuthController::class, 'CodeView'])->name('CodeView');
 
 
 Route::middleware('auth')->group(function () {
