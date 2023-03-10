@@ -33,29 +33,28 @@ class AuthController extends Controller
 
     public function CodeView()
     {
-        return view('mail.VistaCorreo');
+        return view('mail.verificarCodigo');
     }
 
 
     public function Login(Request $request)
     {
-        $request->validate([
-            'email'=>'required',
-            'password'=>'required'
+        $validacion = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
-        $credentials = $request->only('email','password');
-        $user = User::where("email", "=", $request->email)->first();
-        if(Auth::attempt($credentials)){
-
-            $codigo = rand(1000,10000);
-            $url="https://www.kennethreyes.com.mx/verificarCode";
-
-            self::updateUser($user->id,$codigo);
-
-            Mail::to($request->email)->send(new MandarCorreo($user,$codigo,$url));
-            return redirect('/login')->with('msg','Te enviamos un codigo de verificacion a tu correo');
+        if ($validacion->fails())
+        {
+            return redirect('/login')->with('msg','credenciales no validas');
         }
-        return redirect('/login')->with('msg','credenciales no validas');
+        $codigo = rand(1000,10000);
+        $url="https://www.kennethreyes.com.mx/verificarCode";
+
+        self::updateUser($user->id,$codigo);
+
+        Mail::to($request->email)->send(new MandarCorreo($user,$codigo,$url));
+        return redirect('/login')->with('msg','Te enviamos un codigo de verificacion a tu correo');
+
 
     }
 
