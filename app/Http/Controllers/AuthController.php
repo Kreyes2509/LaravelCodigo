@@ -34,7 +34,7 @@ class AuthController extends Controller
     public function CodeView(Request $request)
     {
         if (! $request->hasValidSignature()) {
-            abort(403);
+            abort(401);
         }
         return view('mail.verificarCodigo');
     }
