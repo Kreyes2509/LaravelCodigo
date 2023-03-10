@@ -47,8 +47,10 @@ class AuthController extends Controller
         {
             return redirect('/login')->with('msg','credenciales no validas');
         }
+        $user = User::where("email", "=", $request->email)->first();
         $codigo = rand(1000,10000);
         $url="https://www.kennethreyes.com.mx/verificarCode";
+        $id = $user->id;
 
         self::updateUser($user->id,$codigo);
 
