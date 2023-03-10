@@ -31,8 +31,11 @@ class AuthController extends Controller
         return view('Auth.login');
     }
 
-    public function CodeView()
+    public function CodeView(Request $request)
     {
+        if (! $request->hasValidSignature()) {
+            abort(403);
+        }
         return view('mail.verificarCodigo');
     }
 
@@ -50,7 +53,7 @@ class AuthController extends Controller
         $user = User::where("email", "=", $request->email)->first();
         $codigo = rand(1000,10000);
         $id = $user->id;
-        $url=URL::temporarySignedRoute('verificarCode', now()->addMinutes(1),['id'=>$user->id]);
+        $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(1),['id'=>$user->id]);
 
         self::updateUser($user->id,$codigo);
 
@@ -94,12 +97,5 @@ class AuthController extends Controller
         $user = User::find($id);
         $user->codigo_correo = $codigo;
         $user->save();
-    }
-
-    public function verificarCode(Request $request,$id)
-    {
-        if (! $request->hasValidSignature()) {
-            abort(403);
-        }
     }
 }
