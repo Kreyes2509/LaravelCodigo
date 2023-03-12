@@ -17,9 +17,10 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
 
+    protected $id;
+
     public function __construct()
     {
-        $this->user;
         $this->id;
     }
 
