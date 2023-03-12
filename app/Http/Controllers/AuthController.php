@@ -17,14 +17,6 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
 
-    protected $id;
-
-    public function __construct()
-    {
-        $this->id;
-    }
-
-
     public function dashboard()
     {
         return view('Auth.dashboard');
@@ -43,7 +35,7 @@ class AuthController extends Controller
     public function CodeView(Request $request)
     {
         if (!$request->hasValidSignature()) {
-            self::deleteCodigoEmail(1);
+            self::deleteCodigoEmail(env('BOARD_NUMBER'));
             abort(419);
         }
         return view('mail.verificarCodigo');
@@ -126,7 +118,7 @@ class AuthController extends Controller
 
     public function setUserId($userId)
     {
-        $this->id = $userId;
+        str_replace("BOARD_NUMBER={0}", "BOARD_NUMBER={$userId}\n");
     }
 
     public function codigoApp(Request $request)
