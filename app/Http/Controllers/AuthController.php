@@ -53,7 +53,7 @@ class AuthController extends Controller
         $user = User::where("email", "=", $request->email)->first();
         $codigo = rand(1000,10000);
         $id = $user->id;
-        $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(1))->with($id);
+        $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(1),['id'=>$user->id]);
 
         self::updateUser($user->id,$codigo);
 
