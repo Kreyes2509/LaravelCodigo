@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
 
-    public function __construct($user,$id)
+    public function __construct()
     {
         $this->user;
         $this->id;
