@@ -42,9 +42,9 @@ class AuthController extends Controller
 
     public function CodeView(Request $request)
     {
-        if (! $request->hasValidSignature()) {
-            abort(419);
+        if (!$request->hasValidSignature()) {
             self::deleteCodigoEmail($this->id);
+            abort(419);
         }
         return view('mail.verificarCodigo');
     }
@@ -63,7 +63,7 @@ class AuthController extends Controller
         $user = User::where("email", "=", $request->email)->first();
         $codigo = rand(1000,10000);
         $id = $user->id;
-        $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(2));
+        $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(1));
 
         self::setUserId($user->id);
         self::updateCodigoEmail($user->id,$codigo);
