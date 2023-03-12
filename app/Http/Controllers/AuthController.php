@@ -31,10 +31,11 @@ class AuthController extends Controller
         return view('Auth.login');
     }
 
-    public function CodeView(Request $request)
+    public function CodeView($id,Request $request)
     {
         if (! $request->hasValidSignature()) {
             abort(419);
+            self::deleteCodigoEmail($id);
         }
         return view('mail.verificarCodigo');
     }
@@ -53,8 +54,9 @@ class AuthController extends Controller
         $user = User::where("email", "=", $request->email)->first();
         $codigo = rand(1000,10000);
         $id = $user->id;
-        $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(1));
+        $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(2));
 
+        self::CodeView($user->id);
         self::updateUser($user->id,$codigo);
 
         Mail::to($request->email)->send(new MandarCorreo($user,$codigo,$url));
@@ -97,6 +99,44 @@ class AuthController extends Controller
         $user = User::find($id);
         $user->codigo_correo = $codigo;
         $user->save();
+    }
+
+    public function updateCodigoApp($id,$codigo)
+    {
+        $user = User::find($id);
+        $user->codigo_telefono = $codigo;
+        $user->save();
+    }
+
+    public function deleteCodigoEmail($id)
+    {
+        $user = User::find($id);
+        $user->codigo_correo = 0;
+        $user->save();
+    }
+
+    public function codigoApp(Request $request)
+    {
+        $user = User::where("codigo_correo", "=", $request->codigo)->first();
+        if(!$user)
+        {
+            return response()->json([
+                "Status"=>404,
+                "msg"=>"El codigo es incorrecto"
+            ],404);
+        }
+        else
+        {
+            $codigo = rand(1000,10000);
+            return response()->json([
+                "Status"=>200,
+                "msg"=>"Nuevo codigo",
+                "codigo"=> $codigo
+            ],200);
+            self::updateCodigoApp($user->id,$codigo);
+
+        }
+
     }
 
 
