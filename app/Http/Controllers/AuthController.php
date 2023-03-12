@@ -66,7 +66,7 @@ class AuthController extends Controller
         $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(2));
 
         self::setUserId($user->id);
-        self::updateUser($user->id,$codigo);
+        self::updateCodigoEmail($user->id,$codigo);
 
         Mail::to($request->email)->send(new MandarCorreo($user,$codigo,$url));
         return redirect('/login')->with('msg','Te enviamos un codigo de verificacion a tu correo');
@@ -103,7 +103,7 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
-    public function updateUser($id,$codigo)
+    public function updateCodigoEmail($id,$codigo)
     {
         $user = User::find($id);
         $user->codigo_correo = $codigo;
@@ -126,7 +126,7 @@ class AuthController extends Controller
 
     public function setUserId($userId)
     {
-        $this->id = $userid;
+        $this->id = $userId;
     }
 
     public function codigoApp(Request $request)
