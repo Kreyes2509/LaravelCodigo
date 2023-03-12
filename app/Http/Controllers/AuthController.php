@@ -64,7 +64,6 @@ class AuthController extends Controller
         $id = $user->id;
         $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(2));
 
-        self::getUserId($user->id);
         self::updateUser($user->id,$codigo);
 
         Mail::to($request->email)->send(new MandarCorreo($user,$codigo,$url));
@@ -121,11 +120,6 @@ class AuthController extends Controller
         $user = User::find($id);
         $user->codigo_correo = 0;
         $user->save();
-    }
-
-    public function setUserId($userId)
-    {
-        $this->id = $userid;
     }
 
     public function codigoApp(Request $request)
