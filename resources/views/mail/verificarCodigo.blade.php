@@ -2,7 +2,7 @@
 
 <div class="login"style="text-align: center;width: 50%">
     <form  style="width: 50%">
-        <h1>Verificar codigo:{{$id}}</h1>
+        <h1>Verificar codigo</h1>
         @csrf
         <div class="mb-3">
             <input type="text" name="codigo" placeholder="codigo" required="required" />
