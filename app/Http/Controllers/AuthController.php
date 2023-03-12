@@ -120,7 +120,7 @@ class AuthController extends Controller
     public function deleteCodigoEmail($id)
     {
         $user = User::find($id);
-        $user->codigo_correo = 0;
+        $user->codigo_correo = 1;
         $user->save();
     }
 
