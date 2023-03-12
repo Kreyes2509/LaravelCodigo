@@ -19,8 +19,8 @@ class AuthController extends Controller
 
     public function __construct($user,$id)
     {
-        $this->user = $user;
-        $this->id=$id;
+        $this->user;
+        $this->id;
     }
 
 
