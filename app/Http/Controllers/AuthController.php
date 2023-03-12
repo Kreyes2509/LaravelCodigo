@@ -16,6 +16,14 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
+    public function __construct(User $user,$id)
+    {
+        $this->user = $user;
+        $this->id=$id;
+    }
+
+
     public function dashboard()
     {
         return view('Auth.dashboard');
@@ -31,11 +39,11 @@ class AuthController extends Controller
         return view('Auth.login');
     }
 
-    public function CodeView($id,Request $request)
+    public function CodeView(Request $request)
     {
         if (! $request->hasValidSignature()) {
             abort(419);
-            self::deleteCodigoEmail($id);
+            self::deleteCodigoEmail($this->id);
         }
         return view('mail.verificarCodigo');
     }
@@ -56,7 +64,7 @@ class AuthController extends Controller
         $id = $user->id;
         $url=URL::temporarySignedRoute('CodeView', now()->addMinutes(2));
 
-        self::CodeView($user->id);
+        self::getUserId($user->id);
         self::updateUser($user->id,$codigo);
 
         Mail::to($request->email)->send(new MandarCorreo($user,$codigo,$url));
@@ -113,6 +121,11 @@ class AuthController extends Controller
         $user = User::find($id);
         $user->codigo_correo = 0;
         $user->save();
+    }
+
+    public function setUserId($userId)
+    {
+        $this->id = $userid;
     }
 
     public function codigoApp(Request $request)
